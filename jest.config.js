@@ -1,7 +1,7 @@
 module.exports = {
   roots: ['<rootDir>/src'],
-  collectCoverage: false,
-  // collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
+  collectCoverage: true,
+  // collectCoverageFrom: ['!<rootDir>/src/main/**'],
   coverageDirectory: 'coverage',
   testEnvironment: 'node',
   preset: '@shelf/jest-mongodb',

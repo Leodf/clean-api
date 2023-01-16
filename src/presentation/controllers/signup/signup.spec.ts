@@ -140,7 +140,7 @@ describe('SignUp Controller', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new ServerError())
+    expect(httpResponse.body).toEqual(new ServerError(httpResponse.body))
   })
   test('Deve retornar status 400 se a confirmação da senha falhar', async () => {
     const { sut } = makeSut()
@@ -191,7 +191,7 @@ describe('SignUp Controller', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
-    expect(httpResponse.body).toEqual(new ServerError())
+    expect(httpResponse.body).toEqual(new ServerError(httpResponse.body))
   })
   test('Deve retornar status 200 se os dados estiverem validos', async () => {
     const { sut } = makeSut()

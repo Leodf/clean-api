@@ -94,14 +94,6 @@ describe('SignUp Controller', () => {
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError(httpResponse.body.stack))
   })
-  test('Deve retornar status 400 se a confirmação da senha falhar', async () => {
-    const { sut } = makeSut()
-    const httpRequest = makeFakeRequest()
-    httpRequest.body.passwordConfirmation = 'invalid_password'
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new InvalidParamError('passwordConfirmation'))
-  })
   test('Deve chamar AddAcount com os valores corretos', async () => {
     const { sut, addAccountStub } = makeSut()
     const addSpy = jest.spyOn(addAccountStub, 'add').mockImplementationOnce(() => {

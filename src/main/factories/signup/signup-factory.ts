@@ -4,12 +4,12 @@ import { AccountMongoRepository } from '../../../infra/db/mongodb/account/accoun
 import { LogMongoRepository } from '../../../infra/db/mongodb/log/log-mongo-repository'
 import { SignUpController } from '../../../presentation/controllers/signup/signup-controller'
 import { Controller } from '../../../presentation/protocols'
+import env from '../../config/env'
 import { LogControllerDecorator } from '../../decorators/log-controller-decorator'
 import { makeSignUpValidation } from './signup-validation-factory'
 
 export const makeSignUpController = (): Controller => {
-  const salt = 12
-  const bcryptAdapter = new BCryptAdapter(salt)
+  const bcryptAdapter = new BCryptAdapter(env.salt)
   const accountMongoRepository = new AccountMongoRepository()
   const dbAddAccount = new DbAddAccount(bcryptAdapter, accountMongoRepository)
   const signUpController = new SignUpController(dbAddAccount, makeSignUpValidation())

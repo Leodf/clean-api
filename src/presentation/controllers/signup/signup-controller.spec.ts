@@ -1,7 +1,7 @@
 import { MissingParamError, ServerError } from '../../errors'
 import { AccountModel, AddAccount, AddAccountModel, HttpRequest, Validation } from './signup-controller-protocols'
 import { SignUpController } from './signup-controller'
-import { badRequest, serverError } from '../../helpers/http/http-helper'
+import { badRequest, ok, serverError } from '../../helpers/http/http-helper'
 import { Authentication, AuthenticationModel } from '../login/login-controller-protocols'
 
 const makeAddAccount = (): AddAccount => {
@@ -102,8 +102,7 @@ describe('SignUp Controller', () => {
       }
     }
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(200)
-    expect(httpResponse.body).toEqual(makeFakeAccount())
+    expect(httpResponse).toEqual(ok({ accessToken: 'any_token' }))
   })
   test('Deve chamar Validation com os valores corretos', async () => {
     const { sut, validationStub } = makeSut()

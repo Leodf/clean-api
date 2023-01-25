@@ -2,10 +2,6 @@ import { Collection } from 'mongodb'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { AccountMongoRepository } from './account-mongo-repository'
 
-const makeSut = (): AccountMongoRepository => {
-  return new AccountMongoRepository()
-}
-
 let accountCollection: Collection
 describe('Account Mongo Repository', () => {
   beforeAll(async () => {
@@ -20,6 +16,10 @@ describe('Account Mongo Repository', () => {
     accountCollection = MongoHelper.getCollection('accounts')
     await accountCollection.deleteMany({})
   })
+
+  const makeSut = (): AccountMongoRepository => {
+    return new AccountMongoRepository()
+  }
 
   test('Deve retornar uma account no add com sucesso', async () => {
     const sut = makeSut()

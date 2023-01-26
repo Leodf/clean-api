@@ -11,27 +11,38 @@ const makeFakeAccount = (): AccountModel => ({
   password: 'hashed_password'
 })
 
+const makeLoadByToken = (): LoadAccountByToken => {
+  class LoadAccountByTokenStub implements LoadAccountByToken {
+    async load (accessToken: string, role?: string | undefined): Promise<AccountModel> {
+      return await new Promise(resolve => { resolve(makeFakeAccount()) })
+    }
+  }
+  return new LoadAccountByTokenStub()
+}
+
+interface SutTypes {
+  sut: AuthMiddleware
+  loadAccountByTokenStub: LoadAccountByToken
+}
+
+const makeSut = (): SutTypes => {
+  const loadAccountByTokenStub = makeLoadByToken()
+  const sut = new AuthMiddleware(loadAccountByTokenStub)
+  return {
+    sut,
+    loadAccountByTokenStub
+  }
+}
+
 describe('Auth Middleware', () => {
   test('Deve retornar 403 se não existir o x-access-token no headers', async () => {
-    class LoadAccountByTokenStub implements LoadAccountByToken {
-      async load (accessToken: string, role?: string | undefined): Promise<AccountModel> {
-        return await new Promise(resolve => { resolve(makeFakeAccount()) })
-      }
-    }
-    const loadAccountByTokenStub = new LoadAccountByTokenStub()
-    const sut = new AuthMiddleware(loadAccountByTokenStub)
+    const { sut } = makeSut()
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual(forbidden(new AccessDeniedError()))
   })
   test('Deve chamar LoadAccountByToken com o accessToken correto', async () => {
-    class LoadAccountByTokenStub implements LoadAccountByToken {
-      async load (accessToken: string, role?: string | undefined): Promise<AccountModel> {
-        return await new Promise(resolve => { resolve(makeFakeAccount()) })
-      }
-    }
-    const loadAccountByTokenStub = new LoadAccountByTokenStub()
+    const { sut, loadAccountByTokenStub } = makeSut()
     const loadSpy = jest.spyOn(loadAccountByTokenStub, 'load')
-    const sut = new AuthMiddleware(loadAccountByTokenStub)
     await sut.handle({
       headers: {
         'x-access-token': 'any_token'

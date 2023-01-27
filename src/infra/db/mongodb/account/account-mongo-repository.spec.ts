@@ -21,52 +21,58 @@ describe('Account Mongo Repository', () => {
     return new AccountMongoRepository()
   }
 
-  test('Deve retornar uma account no add com sucesso', async () => {
-    const sut = makeSut()
-    const account = await sut.add({
-      name: 'any_name',
-      email: 'any_email@mail.com',
-      password: 'any_password'
+  describe('add()', () => {
+    test('Deve retornar uma account no add com sucesso', async () => {
+      const sut = makeSut()
+      const account = await sut.add({
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password'
+      })
+      expect(account).toBeTruthy()
+      expect(account.id).toBeTruthy()
+      expect(account.name).toBe('any_name')
+      expect(account.email).toBe('any_email@mail.com')
+      expect(account.password).toBe('any_password')
     })
-    expect(account).toBeTruthy()
-    expect(account.id).toBeTruthy()
-    expect(account.name).toBe('any_name')
-    expect(account.email).toBe('any_email@mail.com')
-    expect(account.password).toBe('any_password')
   })
-  test('Deve retornar uma account no loadByEmail com sucesso', async () => {
-    const sut = makeSut()
-    await accountCollection.insertOne({
-      name: 'any_name',
-      email: 'any_email@mail.com',
-      password: 'any_password'
+  describe('loadByEmail()', () => {
+    test('Deve retornar uma account no loadByEmail com sucesso', async () => {
+      const sut = makeSut()
+      await accountCollection.insertOne({
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password'
+      })
+      const account = await sut.loadByEmail('any_email@mail.com')
+      expect(account).toBeTruthy()
+      expect(account.id).toBeTruthy()
+      expect(account.name).toBe('any_name')
+      expect(account.email).toBe('any_email@mail.com')
+      expect(account.password).toBe('any_password')
     })
-    const account = await sut.loadByEmail('any_email@mail.com')
-    expect(account).toBeTruthy()
-    expect(account.id).toBeTruthy()
-    expect(account.name).toBe('any_name')
-    expect(account.email).toBe('any_email@mail.com')
-    expect(account.password).toBe('any_password')
-  })
-  test('Deve retornar null se loadByEmail falhar', async () => {
-    const sut = makeSut()
-    const account = await sut.loadByEmail('any_email@mail.com')
-    expect(account).toBeFalsy()
-  })
-  test('Deve atualizar uma account accessToken no updateAccessToken com sucesso', async () => {
-    const sut = makeSut()
-    const { insertedId } = await accountCollection.insertOne({
-      name: 'any_name',
-      email: 'any_email@mail.com',
-      password: 'any_password'
+    test('Deve retornar null se loadByEmail falhar', async () => {
+      const sut = makeSut()
+      const account = await sut.loadByEmail('any_email@mail.com')
+      expect(account).toBeFalsy()
     })
-    const accountDataBefore = await accountCollection.findOne({ _id: insertedId })
-    const accountBefore = MongoHelper.map(accountDataBefore)
-    expect(accountBefore.accessToken).toBeFalsy()
-    await sut.updateAccessToken(insertedId.toHexString(), 'any_token')
-    const accountDataAfter = await accountCollection.findOne({ _id: insertedId })
-    const accountAfter = MongoHelper.map(accountDataAfter)
-    expect(accountAfter).toBeTruthy()
-    expect(accountAfter.accessToken).toBe('any_token')
+  })
+  describe('updateAccessToken()', () => {
+    test('Deve atualizar uma account accessToken no updateAccessToken com sucesso', async () => {
+      const sut = makeSut()
+      const { insertedId } = await accountCollection.insertOne({
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password'
+      })
+      const accountDataBefore = await accountCollection.findOne({ _id: insertedId })
+      const accountBefore = MongoHelper.map(accountDataBefore)
+      expect(accountBefore.accessToken).toBeFalsy()
+      await sut.updateAccessToken(insertedId.toHexString(), 'any_token')
+      const accountDataAfter = await accountCollection.findOne({ _id: insertedId })
+      const accountAfter = MongoHelper.map(accountDataAfter)
+      expect(accountAfter).toBeTruthy()
+      expect(accountAfter.accessToken).toBe('any_token')
+    })
   })
 })

@@ -5,6 +5,6 @@ import env from './config/env'
 MongoHelper.connect(env.mongoUrl)
   .then(async () => {
     const app = (await import ('./config/app')).default
-    app.listen(env.port, () => { console.log(`Servidor rodando na porta ${env.port}`) })
+    app.listen(env.port, () => { console.log(`Servidor rodando na porta ${env.port} e banco de dados na porta ${env.mongoUrl}`) })
   })
   .catch(console.error)

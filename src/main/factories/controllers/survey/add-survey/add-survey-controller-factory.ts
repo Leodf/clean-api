@@ -5,6 +5,6 @@ import { makeAddSurveyValidation } from './add-survey-validation-factory'
 import { makeDbAddSurvey } from '../../../usecases/survey/add-survey/db-add-survey-factory'
 
 export const makeAddSurveyController = (): Controller => {
-  const loginController = new AddSurveyController(makeAddSurveyValidation(), makeDbAddSurvey())
-  return makeLogControllerDecorator(loginController)
+  const addSurveyController = new AddSurveyController(makeAddSurveyValidation(), makeDbAddSurvey())
+  return makeLogControllerDecorator(addSurveyController)
 }

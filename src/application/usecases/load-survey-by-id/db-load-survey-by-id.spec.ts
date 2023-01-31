@@ -42,10 +42,15 @@ describe('DbLoadSurveyById', () => {
   afterAll(() => {
     MockDate.reset()
   })
-  test('Deve chamar o LoadSurveysRepository', async () => {
+  test('Deve chamar o LoadSurveyByIdRepository', async () => {
     const { sut, loadSurveyByIdRepositoryStub } = makeSut()
     const loadByIdSpy = jest.spyOn(loadSurveyByIdRepositoryStub, 'loadById')
     await sut.loadById('any_id')
     expect(loadByIdSpy).toHaveBeenCalledWith('any_id')
+  })
+  test('Deve retornar uma Survey no sucesso', async () => {
+    const { sut } = makeSut()
+    const survey = await sut.loadById('any_id')
+    expect(survey).toEqual(makeFakeSurvey())
   })
 })

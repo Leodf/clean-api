@@ -1,7 +1,6 @@
 import { Collection } from 'mongodb'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { SurveyResultMongoRepository } from './survey-result-mongo-repository'
-import MockDate from 'mockdate'
 import { SurveyModel } from '@/domain/models/survey'
 import { AccountModel } from '@/domain/models/account'
 
@@ -46,12 +45,10 @@ const makeAccount = async (): Promise<AccountModel> => {
 describe('Survey Result Mongo Repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL!)
-    MockDate.set(new Date())
   })
 
   afterAll(async () => {
     await MongoHelper.disconnect()
-    MockDate.reset()
   })
 
   beforeEach(async () => {
@@ -77,6 +74,30 @@ describe('Survey Result Mongo Repository', () => {
       expect(surveyResult).toBeTruthy()
       expect(surveyResult.id).toBeTruthy()
       expect(surveyResult.answer).toBe(survey.answers[0].answer)
+    })
+    test('Deve atualizar uma survey result se não for nova', async () => {
+      const survey = await makeSurvey()
+      const account = await makeAccount()
+      const { insertedId } = await surveyResultCollection.insertOne({
+        surveyId: survey.id,
+        accountId: account.id,
+        answer: survey.answers[0].answer,
+        date: new Date()
+      })
+      const sut = makeSut()
+      const surveySaved = await surveyResultCollection.findOne({ _id: insertedId })
+      console.log(surveySaved)
+      const surveyResult = await sut.save({
+        surveyId: survey.id,
+        accountId: account.id,
+        answer: survey.answers[1].answer,
+        date: new Date()
+      })
+      const surveySaved2 = await surveyResultCollection.findOne({ _id: insertedId })
+      console.log(surveySaved2)
+      expect(surveyResult).toBeTruthy()
+      expect(surveyResult.id).toEqual(insertedId.toHexString())
+      expect(surveyResult.answer).toBe(survey.answers[1].answer)
     })
   })
 })

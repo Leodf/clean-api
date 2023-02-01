@@ -1,5 +1,5 @@
 import { SurveyModel } from '@/domain/models/survey'
-import { AddSurveyModel } from '@/domain/usecases/add-survey'
+import { AddSurveyModel } from '@/domain/usecases/survey/add-survey'
 import { AddSurveyRepository } from '@/application/protocols/db/survey/add-survey-repository'
 import { LoadSurveysRepository } from '@/application/protocols/db/survey/load-surveys-repository'
 import { LoadSurveyByIdRepository } from '@/application/protocols/db/survey/load-survey-by-id-repository'

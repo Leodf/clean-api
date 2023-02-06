@@ -1,6 +1,6 @@
-import { loginPath } from '@/main/docs/paths/login-path'
-import { accountSchema } from '@/main/docs/schemas/account-schema'
-import { loginParamsSchema } from '@/main/docs/schemas/login-params-schema'
+import { loginPath } from '@/main/docs/paths'
+import { accountSchema, loginParamsSchema, errorSchema } from '@/main/docs/schemas'
+import { badRequest, serverError, unauthorized, notFound } from '@/main/docs/components'
 
 export default {
   openapi: '3.0.0',
@@ -8,6 +8,10 @@ export default {
     title: 'Clean Api',
     description: 'Api do curso do Mango para realizar enquetes',
     version: '2.2.0'
+  },
+  license: {
+    name: 'MIT License',
+    url: 'https://spdx.org/licenses/MIT.html'
   },
   servers: [{
     url: '/api'
@@ -20,6 +24,13 @@ export default {
   },
   schemas: {
     account: accountSchema,
-    loginParams: loginParamsSchema
+    loginParams: loginParamsSchema,
+    error: errorSchema
+  },
+  components: {
+    badRequest,
+    unauthorized,
+    notFound,
+    serverError
   }
 }

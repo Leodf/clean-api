@@ -20,8 +20,8 @@
     "husky:prepare": "husky install"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Leonardo de Faveri",
+  "license": "MIT License",
   "devDependencies": {
     "@shelf/jest-mongodb": "^4.1.4",
     "@types/bcrypt": "^5.0.0",

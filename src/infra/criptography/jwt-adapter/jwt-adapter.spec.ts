@@ -1,12 +1,13 @@
 import jwt from 'jsonwebtoken'
 import { JwtAdapter } from './jwt-adapter'
+import { throwError } from '@/domain/tests'
 
 jest.mock('jsonwebtoken', () => ({
   async sign (): Promise<string> {
-    return await new Promise(resolve => { resolve('any_token') })
+    return await Promise.resolve('any_token')
   },
   async verify (): Promise<string> {
-    return await new Promise(resolve => { resolve('any_value') })
+    return await Promise.resolve('any_value')
   }
 }))
 const makeSut = (): JwtAdapter => {
@@ -27,7 +28,7 @@ describe('Jwt Adapter', () => {
     })
     test('Deve lancar erro se sign lancar erro', async () => {
       const sut = makeSut()
-      jest.spyOn(jwt, 'sign').mockImplementationOnce(async () => { await new Promise((resolve, reject) => { reject(new Error()) }) })
+      jest.spyOn(jwt, 'sign').mockImplementationOnce(throwError)
       const promise = sut.encrypt('any_id')
       await expect(promise).rejects.toThrow()
     })
@@ -46,7 +47,7 @@ describe('Jwt Adapter', () => {
     })
     test('Deve lancar erro se verify lancar erro', async () => {
       const sut = makeSut()
-      jest.spyOn(jwt, 'verify').mockImplementationOnce(async () => { await new Promise((resolve, reject) => { reject(new Error()) }) })
+      jest.spyOn(jwt, 'verify').mockImplementationOnce(throwError)
       const promise = sut.decrypt('any_token')
       await expect(promise).rejects.toThrow()
     })

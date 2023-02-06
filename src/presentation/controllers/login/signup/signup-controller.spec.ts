@@ -60,9 +60,7 @@ describe('SignUp Controller', () => {
   })
   test('Deve retornar status 500 se o AddAccount retornar uma exceção', async () => {
     const { sut, addAccountStub } = makeSut()
-    jest.spyOn(addAccountStub, 'add').mockImplementationOnce(async () => {
-      return await new Promise((resolve, reject) => { reject(new Error()) })
-    })
+    jest.spyOn(addAccountStub, 'add').mockImplementationOnce(throwError)
     const httpRequest = mockRequest()
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
@@ -70,7 +68,7 @@ describe('SignUp Controller', () => {
   })
   test('Deve retornar status 403 se AddAccount retornar null', async () => {
     const { sut, addAccountStub } = makeSut()
-    jest.spyOn(addAccountStub, 'add').mockReturnValueOnce(new Promise(resolve => { resolve(null!) }))
+    jest.spyOn(addAccountStub, 'add').mockReturnValueOnce(Promise.resolve(null!))
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(forbidden(new EmailInUseError()))
   })

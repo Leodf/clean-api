@@ -34,6 +34,7 @@ export const surveyPath = {
     tags: ['Enquete'],
     summary: 'API para um admin criar uma enquete',
     requestBody: {
+      required: true,
       description: 'Exemplo de requisição para criar uma enquete',
       content: {
         'application/json': {

@@ -14,6 +14,7 @@ export const surveyResultPath = {
       }
     }],
     requestBody: {
+      required: true,
       description: 'Exemplo de requisição para criar ou atualizar uma resposta',
       content: {
         'application/json': {

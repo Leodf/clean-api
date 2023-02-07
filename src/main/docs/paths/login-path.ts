@@ -3,6 +3,7 @@ export const loginPath = {
     tags: ['Login'],
     summary: 'API para autenticar usuário',
     requestBody: {
+      required: true,
       description: 'Exemplo de requisição para autenticação de usuário',
       content: {
         'application/json': {

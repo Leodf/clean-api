@@ -3,6 +3,7 @@ export const signPath = {
     tags: ['Login'],
     summary: 'API para cadastrar conta de usuário',
     requestBody: {
+      required: true,
       description: 'Exemplo de requisição para criar conta de usuário',
       content: {
         'application/json': {

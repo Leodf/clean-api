@@ -7,19 +7,27 @@ export default {
   info: {
     title: 'Clean Api',
     description: 'Api do curso do Mango para realizar enquetes',
-    version: '2.2.0'
-  },
-  license: {
-    name: 'MIT License',
-    url: 'https://spdx.org/licenses/MIT.html'
+    version: '2.2.0',
+    contact: {
+      name: 'Leonardo de Faveri',
+      email: 'faver_i@hotmail.com',
+      url: 'https://www.linkedin.com/in/leonardo-de-faveri'
+    },
+    license: {
+      name: 'MIT License',
+      url: 'https://spdx.org/licenses/MIT.html'
+    }
   },
   servers: [{
-    url: '/api'
+    url: '/api',
+    description: 'Servidor Principal'
   }],
   tags: [{
-    name: 'Login'
+    name: 'Login',
+    description: 'APIs relacionadas a Login'
   }, {
-    name: 'Enquete'
+    name: 'Enquete',
+    description: 'APIs relacionadas a Enquete'
   }],
   paths,
   schemas,

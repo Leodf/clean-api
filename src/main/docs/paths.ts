@@ -3,7 +3,7 @@ import {
   signPath,
   surveyPath,
   surveyResultPath
-} from '@/main/docs/paths/'
+} from './paths/'
 
 export default {
   '/login': loginPath,

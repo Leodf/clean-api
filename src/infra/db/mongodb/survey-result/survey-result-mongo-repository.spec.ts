@@ -75,36 +75,34 @@ describe('SurveyResultMongo Repository', () => {
         date: new Date()
       })
       const surveyResult = await surveyResultCollection.findOne({
-        surveyId: survey.id,
-        accountId: account.id
+        surveyId: new ObjectId(survey.id),
+        accountId: new ObjectId(account.id)
       })
-      console.log(surveyResult)
-      // expect(surveyResult).toBeTruthy()
+      expect(surveyResult).toBeTruthy()
     })
     test('Deve atualizar uma survey result se não for nova', async () => {
       const survey = await mockSurvey()
       const account = await mockAccount()
-      const { insertedId } = await surveyResultCollection.insertOne({
+      await surveyResultCollection.insertOne({
         surveyId: new ObjectId(survey.id),
         accountId: new ObjectId(account.id),
         answer: survey.answers[0].answer,
         date: new Date()
       })
       const sut = makeSut()
-      await surveyResultCollection.findOne({ _id: insertedId })
       await sut.save({
         surveyId: survey.id,
         accountId: account.id,
         answer: survey.answers[1].answer,
         date: new Date()
       })
-      // const surveyResult = await surveyResultCollection
-      //   .find({
-      //     surveyId: survey.id,
-      //     accountId: account.id
-      //   })
-      //   .toArray()
-      // expect(surveyResult).toBeTruthy()
+      const surveyResult = await surveyResultCollection
+        .find({
+          surveyId: new ObjectId(survey.id),
+          accountId: new ObjectId(account.id)
+        })
+        .toArray()
+      expect(surveyResult).toBeTruthy()
     })
   })
   describe(('loadBySurveyId()'), () => {

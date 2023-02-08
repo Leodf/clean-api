@@ -1,12 +1,28 @@
-import { Collection } from 'mongodb'
+import { Collection, ObjectId } from 'mongodb'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { SurveyMongoRepository } from './survey-mongo-repository'
 import MockDate from 'mockdate'
+import { mockSurvey } from '@/domain/tests'
+import { AccountModel } from '@/domain/models/account'
+import { SurveyModel } from '@/domain/models/survey'
 
 let surveyCollection: Collection
+let surveyResultCollection: Collection
+let accountCollection: Collection
 
 const makeSut = (): SurveyMongoRepository => {
   return new SurveyMongoRepository()
+}
+
+const mockAccount = async (): Promise<AccountModel> => {
+  const { insertedId } = await accountCollection.insertOne({
+    name: 'any_name',
+    email: 'any_email',
+    password: 'any_password'
+  })
+  const accountData = await accountCollection.findOne({ _id: insertedId })
+  const account = MongoHelper.map(accountData) as AccountModel
+  return account
 }
 
 describe('Survey Mongo Repository', () => {
@@ -23,6 +39,10 @@ describe('Survey Mongo Repository', () => {
   beforeEach(async () => {
     surveyCollection = MongoHelper.getCollection('surveys')
     await surveyCollection.deleteMany({})
+    surveyResultCollection = MongoHelper.getCollection('surveyResults')
+    await surveyResultCollection.deleteMany({})
+    accountCollection = MongoHelper.getCollection('accounts')
+    await accountCollection.deleteMany({})
   })
 
   describe(('add()'), () => {
@@ -47,34 +67,28 @@ describe('Survey Mongo Repository', () => {
   })
   describe(('loadAll()'), () => {
     test('Deve carregar todas surveys no sucesso', async () => {
-      await surveyCollection.insertMany([{
-        question: 'any_question',
-        answers: [
-          {
-            image: 'any_image',
-            answer: 'any_answer'
-          }
-        ],
+      const account = await mockAccount()
+      const { insertedIds } = await surveyCollection.insertMany([mockSurvey(), mockSurvey()])
+      const surveyData = await surveyCollection.findOne({ _id: insertedIds[0] })
+      const survey = MongoHelper.map(surveyData) as SurveyModel
+      await surveyResultCollection.insertOne({
+        surveyId: new ObjectId(survey.id),
+        accountId: new ObjectId(account.id),
+        answer: survey.answers[0].answer,
         date: new Date()
-      }, {
-        question: 'other_question',
-        answers: [
-          {
-            image: 'other_image',
-            answer: 'other_answer'
-          }
-        ],
-        date: new Date()
-      }])
+      })
       const sut = makeSut()
-      const surveys = await sut.loadAll()
+      const surveys = await sut.loadAll(account.id)
       expect(surveys.length).toBe(2)
-      expect(surveys[0].question).toBe('any_question')
-      expect(surveys[1].question).toBe('other_question')
+      expect(surveys[0].question).toBe(survey.question)
+      expect(surveys[0].didAnswer).toBe(true)
+      expect(surveys[1].question).toBe(survey.question)
+      expect(surveys[1].didAnswer).toBe(false)
     })
     test('Deve carregar uma lista vazia', async () => {
+      const account = await mockAccount()
       const sut = makeSut()
-      const surveys = await sut.loadAll()
+      const surveys = await sut.loadAll(account.id)
       expect(surveys.length).toBe(0)
     })
   })

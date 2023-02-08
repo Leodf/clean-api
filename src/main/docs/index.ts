@@ -7,7 +7,7 @@ export default {
   info: {
     title: 'Clean Api',
     description: 'Api do curso do Mango para realizar enquetes',
-    version: '2.2.0',
+    version: '2.4.0',
     contact: {
       name: 'Leonardo de Faveri',
       email: 'faver_i@hotmail.com',

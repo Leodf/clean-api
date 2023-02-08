@@ -183,6 +183,6 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository, 
       date: result.date
 
     }))
-    return surveyResult?.length ? surveyResult[0] : null
+    return surveyResult.length ? surveyResult[0] : null
   }
 }

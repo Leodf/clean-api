@@ -53,8 +53,8 @@ describe('DbLoadAccountByToken Usecase', () => {
   test('Deve lançar erro se Decrypter lançar erro', async () => {
     const { sut, decrypterStub } = makeSut()
     jest.spyOn(decrypterStub, 'decrypt').mockImplementationOnce(throwError)
-    const promise = sut.load('any_token', 'any_role')
-    await expect(promise).rejects.toThrow()
+    const account = await sut.load('any_token', 'any_role')
+    expect(account).toBeNull()
   })
   test('Deve lançar erro se loadAccountByTokenRepository lançar erro', async () => {
     const { sut, loadAccountByTokenRepositoryStub } = makeSut()

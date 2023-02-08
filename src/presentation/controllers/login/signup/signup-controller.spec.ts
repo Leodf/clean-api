@@ -12,7 +12,7 @@ import {
   Authentication
 } from './signup-controller-protocols'
 import { SignUpController } from './signup-controller'
-import { throwError } from '@/domain/tests'
+import { mockAuthenticationModel, mockAuthenticationParams, throwError } from '@/domain/tests'
 import { mockAuthentication, mockValidation, mockAddAccount } from '@/presentation/tests'
 
 const mockRequest = (): HttpRequest => ({
@@ -83,7 +83,7 @@ describe('SignUp Controller', () => {
       }
     }
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(ok({ accessToken: 'any_token' }))
+    expect(httpResponse).toEqual(ok(mockAuthenticationModel()))
   })
   test('Deve chamar Validation com os valores corretos', async () => {
     const { sut, validationStub } = makeSut()
@@ -103,7 +103,7 @@ describe('SignUp Controller', () => {
     const authSpy = jest.spyOn(authenticationStub, 'auth')
     const httpRequest = mockRequest()
     await sut.handle(httpRequest)
-    expect(authSpy).toHaveBeenCalledWith({ email: 'any_email@mail.com', password: 'any_password' })
+    expect(authSpy).toHaveBeenCalledWith(mockAuthenticationParams())
   })
   test('Deve retornar 500 se Authentication lançar erro', async () => {
     const { sut, authenticationStub } = makeSut()

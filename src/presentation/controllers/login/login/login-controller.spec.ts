@@ -2,7 +2,7 @@ import { MissingParamError } from '@/presentation/errors'
 import { badRequest, ok, serverError, unauthorized } from '@/presentation/helpers/http/http-helper'
 import { HttpRequest, Authentication, Validation } from './login-controller-protocols'
 import { LoginController } from './login-controller'
-import { throwError } from '@/domain/tests'
+import { mockAuthenticationModel, mockAuthenticationParams, throwError } from '@/domain/tests'
 import { mockAuthentication, mockValidation } from '@/presentation/tests'
 
 const mockRequest = (): HttpRequest => ({
@@ -34,7 +34,7 @@ describe('Login Controller', () => {
     const authSpy = jest.spyOn(authenticationStub, 'auth')
     const httpRequest = mockRequest()
     await sut.handle(httpRequest)
-    expect(authSpy).toHaveBeenCalledWith({ email: 'any_email@mail.com', password: 'any_password' })
+    expect(authSpy).toHaveBeenCalledWith(mockAuthenticationParams())
   })
 
   test('Deve retornar 401 se credenciais invalidas foram fornecidas', async () => {
@@ -57,7 +57,7 @@ describe('Login Controller', () => {
     const { sut } = makeSut()
     const httpRequest = mockRequest()
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(ok({ accessToken: 'any_token' }))
+    expect(httpResponse).toEqual(ok(mockAuthenticationModel()))
   })
 
   test('Deve chamar Validation com os valores corretos', async () => {

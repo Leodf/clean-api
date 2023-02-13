@@ -1,4 +1,4 @@
-import { DbAuthentication } from '@/application/usecases/account/authentication/db-authentication'
+import { DbAuthentication } from '@/application/usecases/account/db-authentication'
 import { Authentication } from '@/domain/usecases/account/authentication'
 import { BCryptAdapter } from '@/infra/criptography/bcrypt-adapter/bcrypt-adapter'
 import { JwtAdapter } from '@/infra/criptography/jwt-adapter/jwt-adapter'

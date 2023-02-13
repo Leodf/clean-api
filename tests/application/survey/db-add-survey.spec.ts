@@ -1,8 +1,8 @@
-import { AddSurveyRepository } from '@/application/usecases/survey/add-survey/db-add-survey-protocols'
-import { DbAddSurvey } from '@/application/usecases/survey/add-survey/db-add-survey'
+import { AddSurveyRepository } from '@/application/protocols/db/survey'
+import { DbAddSurvey } from '@/application/usecases/survey'
 import MockDate from 'mockdate'
-import { mockAddSurveyRepository } from '../mocks'
 import { mockSurveyParams, throwError } from '../../domain/mocks'
+import { mockAddSurveyRepository } from '../mocks'
 
 interface SutTypes {
   sut: DbAddSurvey

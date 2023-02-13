@@ -1,12 +1,8 @@
+import { HashComparer, Encrypter } from '@/application/protocols/cryptography'
+import { LoadAccountByEmailRepository, UpdateAccessTokenRepository } from '@/application/protocols/db/account'
+import { DbAuthentication } from '@/application/usecases/account'
 import { mockAuthenticationParams, throwError } from '../../domain/mocks'
 import { mockLoadAccountByEmailRepository, mockHashComparer, mockEncrypter, mockUpdateAccessTokenRepository } from '../mocks'
-import { DbAuthentication } from '@/application/usecases/account/authentication/db-authentication'
-import {
-  HashComparer,
-  Encrypter,
-  LoadAccountByEmailRepository,
-  UpdateAccessTokenRepository
-} from '@/application/usecases/account/authentication/db-authentication-protocols'
 
 interface SutTypes {
   sut: DbAuthentication

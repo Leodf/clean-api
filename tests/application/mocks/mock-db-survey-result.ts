@@ -1,7 +1,6 @@
-import { LoadSurveyResultRepository } from '@/application/protocols/db/survey-result/load-survey-result-repository'
-import { SaveSurveyResultRepository } from '@/application/protocols/db/survey-result/save-survey-result-repository'
-import { SurveyResultModel } from '@/domain/models/survey-result'
-import { SaveSurveyResultParams } from '@/domain/usecases/survey-result/save-survey-result'
+import { SaveSurveyResultRepository, LoadSurveyResultRepository } from '@/application/protocols/db/survey-result'
+import { SaveSurveyResultParams } from '@/domain/usecases/survey-result'
+import { SurveyResultModel } from '@/domain/models'
 import { mockSurveyResultModel } from '../../domain/mocks'
 
 export const mockSaveSurveyResultRepository = (): SaveSurveyResultRepository => {

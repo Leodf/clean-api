@@ -1,8 +1,8 @@
-import { LoadSurveyByIdRepository } from '@/application/usecases/survey/load-survey-by-id/db-load-survey-by-id-protocols'
-import { DbLoadSurveyById } from '@/application/usecases/survey/load-survey-by-id/db-load-survey-by-id'
+import { LoadSurveyByIdRepository } from '@/application/protocols/db/survey'
+import { DbLoadSurveyById } from '@/application/usecases/survey'
 import MockDate from 'mockdate'
-import { mockLoadSurveyByIdRepository } from '../mocks'
 import { mockSurvey, throwError } from '../../domain/mocks'
+import { mockLoadSurveyByIdRepository } from '../mocks'
 
   type SutTypes = {
     sut: DbLoadSurveyById

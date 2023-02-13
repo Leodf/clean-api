@@ -1,5 +1,6 @@
-import { Hasher, AddAccountRepository, LoadAccountByEmailRepository } from '@/application/usecases/account/add-account/db-add-account-protocols'
-import { DbAddAccount } from '@/application/usecases/account/add-account/db-add-account'
+import { Hasher } from '@/application/protocols/cryptography'
+import { AddAccountRepository, LoadAccountByEmailRepository } from '@/application/protocols/db/account'
+import { DbAddAccount } from '@/application/usecases/account'
 import { mockAddAccountParams, throwError, mockAccountModel } from '../../domain/mocks'
 import { mockHasher, mockLoadAccountByEmailRepository, mockAddAccountRepository } from '../mocks'
 

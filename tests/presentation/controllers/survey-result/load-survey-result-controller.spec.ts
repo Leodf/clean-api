@@ -1,10 +1,11 @@
-import { LoadSurveyResultController } from '@/presentation/controllers/survey-result/load-survey-result/load-survey-result-controller'
-import { HttpRequest, LoadSurveyById, LoadSurveyResult } from '@/presentation/controllers/survey-result/load-survey-result/load-survey-result-controller-protocols'
-import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { LoadSurveyResultController } from '@/presentation/controllers'
+import { forbidden, ok, serverError } from '@/presentation/helpers/http-helper'
 import { InvalidParamError } from '@/presentation/errors/invalid-param-error'
+import { HttpRequest } from '@/presentation/protocols'
+import { LoadSurveyResult } from '@/domain/usecases/survey-result'
+import { LoadSurveyById } from '@/domain/usecases/survey'
 import MockDate from 'mockdate'
-import { mockLoadSurveyResult } from '@/../tests/presentation/mocks/mock-load-survey-result'
-import { mockLoadSurveyById } from '@/../tests/presentation/mocks'
+import { mockLoadSurveyResult, mockLoadSurveyById } from '@/../tests/presentation/mocks'
 import { throwError, mockSurveyResultModel } from '@/../tests/domain/mocks'
 
 const mockRequest = (): HttpRequest => ({

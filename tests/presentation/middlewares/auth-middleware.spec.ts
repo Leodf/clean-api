@@ -1,7 +1,8 @@
-import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { HttpRequest } from '@/presentation/protocols'
+import { forbidden, ok, serverError } from '@/presentation/helpers'
 import { AccessDeniedError } from '@/presentation/errors'
-import { AuthMiddleware } from '@/presentation/middlewares/auth-middleware'
-import { LoadAccountByToken, HttpRequest } from '@/presentation/middlewares/auth-middleware-protocols'
+import { AuthMiddleware } from '@/presentation/middlewares'
+import { LoadAccountByToken } from '@/domain/usecases/account'
 import { mockLoadAccountByToken } from '@/../tests/presentation/mocks'
 import { throwError } from '../../domain/mocks'
 

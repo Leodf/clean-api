@@ -1,17 +1,8 @@
-import {
-  AddAccount,
-  HttpRequest,
-  Validation,
-  EmailInUseError,
-  MissingParamError,
-  ServerError,
-  badRequest,
-  forbidden,
-  ok,
-  serverError,
-  Authentication
-} from '@/presentation/controllers/login/signup/signup-controller-protocols'
-import { SignUpController } from '@/presentation/controllers/login/signup/signup-controller'
+import { SignUpController } from '@/presentation/controllers'
+import { ServerError, EmailInUseError, MissingParamError } from '@/presentation/errors'
+import { forbidden, badRequest, serverError, ok } from '@/presentation/helpers'
+import { HttpRequest, Validation } from '@/presentation/protocols'
+import { AddAccount, Authentication } from '@/domain/usecases/account'
 import { throwError, mockAuthenticationModel, mockAuthenticationParams } from '@/../tests/domain/mocks'
 import { mockAddAccount, mockValidation, mockAuthentication } from '../../mocks'
 

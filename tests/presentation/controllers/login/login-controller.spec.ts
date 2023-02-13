@@ -1,7 +1,8 @@
 import { MissingParamError } from '@/presentation/errors'
-import { badRequest, ok, serverError, unauthorized } from '@/presentation/helpers/http/http-helper'
-import { HttpRequest, Authentication, Validation } from '@/presentation/controllers/login/login/login-controller-protocols'
-import { LoginController } from '@/presentation/controllers/login/login/login-controller'
+import { unauthorized, serverError, badRequest, ok } from '@/presentation/helpers'
+import { HttpRequest, Validation } from '@/presentation/protocols'
+import { LoginController } from '@/presentation/controllers'
+import { Authentication } from '@/domain/usecases/account'
 import { mockAuthenticationParams, throwError, mockAuthenticationModel } from '@/../tests/domain/mocks'
 import { mockAuthentication, mockValidation } from '../../mocks'
 

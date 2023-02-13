@@ -76,7 +76,7 @@ describe('DbAuthentication UseCase', () => {
     const promise = sut.auth(mockAuthenticationParams())
     await expect(promise).rejects.toThrow()
   })
-  test('Deve retornar um AuthenticationModel se Encrypter no sucesso', async () => {
+  test('Deve retornar um dado se Encrypter no sucesso', async () => {
     const { sut } = makeSut()
     const { accessToken, name } = await sut.auth(mockAuthenticationParams())
     expect(accessToken).toBe('any_token')

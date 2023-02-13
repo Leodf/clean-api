@@ -1,17 +1,14 @@
 import { LoadSurveyResultController } from '@/presentation/controllers'
 import { forbidden, ok, serverError } from '@/presentation/helpers/http-helper'
 import { InvalidParamError } from '@/presentation/errors/invalid-param-error'
-import { HttpRequest } from '@/presentation/protocols'
 import { LoadSurveyResult } from '@/domain/usecases/survey-result'
 import { LoadSurveyById } from '@/domain/usecases/survey'
 import MockDate from 'mockdate'
 import { mockLoadSurveyResult, mockLoadSurveyById } from '@/../tests/presentation/mocks'
 import { throwError, mockSurveyResultModel } from '@/../tests/domain/mocks'
 
-const mockRequest = (): HttpRequest => ({
-  params: {
-    surveyId: 'any_id'
-  }
+const mockRequest = (): LoadSurveyResultController.Request => ({
+  surveyId: 'any_id'
 })
 
 type SutTypes = {

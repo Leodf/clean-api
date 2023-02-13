@@ -1,4 +1,4 @@
-import { HttpRequest, Validation } from '@/presentation/protocols'
+import { Validation } from '@/presentation/protocols'
 import { AddSurveyController } from '@/presentation/controllers'
 import { badRequest, noContent, serverError } from '@/presentation/helpers/http-helper'
 import { AddSurvey } from '@/domain/usecases/survey'
@@ -6,15 +6,12 @@ import MockDate from 'mockdate'
 import { mockValidation, mockAddSurvey } from '@/../tests/presentation/mocks'
 import { throwError } from '@/../tests/domain/mocks'
 
-const mockRequest = (): HttpRequest => ({
-  body: {
-    question: 'any_question',
-    answers: [{
-      image: 'any_image',
-      answer: 'any_answer'
-    }],
-    date: new Date()
-  }
+const mockRequest = (): AddSurveyController.Request => ({
+  question: 'any_question',
+  answers: [{
+    image: 'any_image',
+    answer: 'any_answer'
+  }]
 })
 
 interface SutTypes {
@@ -44,9 +41,9 @@ describe('AddSurvey Controller', () => {
   test('Deve chamar o Validation com os valores corretos', async () => {
     const { sut, validationStub } = makeSut()
     const validateSpy = jest.spyOn(validationStub, 'validate')
-    const httpRequest = mockRequest()
-    await sut.handle(httpRequest)
-    expect(validateSpy).toHaveBeenCalledWith(httpRequest.body)
+    const request = mockRequest()
+    await sut.handle(request)
+    expect(validateSpy).toHaveBeenCalledWith(request)
   })
   test('Deve retornar 400 se o Validation falhar', async () => {
     const { sut, validationStub } = makeSut()
@@ -57,9 +54,9 @@ describe('AddSurvey Controller', () => {
   test('Deve chamar o AddSurvey com os valores corretos', async () => {
     const { sut, addSurveyStub } = makeSut()
     const addSpy = jest.spyOn(addSurveyStub, 'add')
-    const httpRequest = mockRequest()
-    await sut.handle(httpRequest)
-    expect(addSpy).toHaveBeenCalledWith(httpRequest.body)
+    const request = mockRequest()
+    await sut.handle(request)
+    expect(addSpy).toHaveBeenCalledWith({ ...request, date: new Date() })
   })
   test('Deve retornar 500 se AddSurvey lançar erro', async () => {
     const { sut, addSurveyStub } = makeSut()

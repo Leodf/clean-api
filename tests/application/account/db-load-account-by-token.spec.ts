@@ -1,7 +1,7 @@
 import { Decrypter } from '@/application/protocols/cryptography'
 import { LoadAccountByTokenRepository } from '@/application/protocols/db/account'
 import { DbLoadAccountByToken } from '@/application/usecases/account'
-import { mockAccountModel, throwError } from '../../domain/mocks'
+import { throwError } from '../../domain/mocks'
 import { mockDecrypter, mockLoadAccountByTokenRepository } from '../mocks'
 
 interface SutTypes {
@@ -46,10 +46,10 @@ describe('DbLoadAccountByToken Usecase', () => {
     const account = await sut.load('any_token', 'any_role')
     expect(account).toBeNull()
   })
-  test('Deve retornar a account no sucesso', async () => {
+  test('Deve retornar um Id de uma account no sucesso', async () => {
     const { sut } = makeSut()
-    const account = await sut.load('any_token', 'any_role')
-    expect(account).toEqual(mockAccountModel())
+    const accountId = await sut.load('any_token', 'any_role')
+    expect(accountId).toEqual({ id: 'any_id' })
   })
   test('Deve lançar erro se Decrypter lançar erro', async () => {
     const { sut, decrypterStub } = makeSut()

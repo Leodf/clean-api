@@ -2,22 +2,30 @@ import {
   AddAccountRepository,
   LoadAccountByEmailRepository,
   UpdateAccessTokenRepository,
-  LoadAccountByTokenRepository
+  LoadAccountByTokenRepository,
+  CheckAccountByEmailRepository
 } from '@/application/protocols/db/account'
-import { AccountModel } from '@/domain/models'
 import { MongoHelper } from '@/infra/db/mongodb/helpers'
 import { ObjectId } from 'mongodb'
 
-export class AccountMongoRepository implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository {
+export class AccountMongoRepository implements AddAccountRepository, LoadAccountByEmailRepository, UpdateAccessTokenRepository, LoadAccountByTokenRepository, CheckAccountByEmailRepository {
   async add (accountData: AddAccountRepository.Params): Promise<AddAccountRepository.Result> {
     const accountCollection = MongoHelper.getCollection('accounts')
-    const { insertedId } = await accountCollection.insertOne(accountData)
-    return MongoHelper.map({ insertedId, ...accountData })
+    const { acknowledged } = await accountCollection.insertOne(accountData)
+    return acknowledged
   }
 
-  async loadByEmail (email: string): Promise<AccountModel> {
+  async loadByEmail (email: string): Promise<LoadAccountByEmailRepository.Result> {
     const accountCollection = MongoHelper.getCollection('accounts')
-    const account = await accountCollection.findOne({ email })
+    const account = await accountCollection.findOne({
+      email
+    }, {
+      projection: {
+        _id: 1,
+        name: 1,
+        password: 1
+      }
+    })
     return account && MongoHelper.map(account)
   }
 
@@ -48,5 +56,17 @@ export class AccountMongoRepository implements AddAccountRepository, LoadAccount
       ]
     })
     return account && MongoHelper.map(account)
+  }
+
+  async checkByEmail (email: string): Promise<boolean> {
+    const accountCollection = MongoHelper.getCollection('accounts')
+    const account = await accountCollection.findOne({
+      email
+    }, {
+      projection: {
+        _id: 1
+      }
+    })
+    return account !== null
   }
 }

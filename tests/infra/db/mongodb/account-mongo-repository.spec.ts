@@ -25,12 +25,8 @@ describe('Account Mongo Repository', () => {
   describe('add()', () => {
     test('Deve retornar uma account no add com sucesso', async () => {
       const sut = makeSut()
-      const account = await sut.add(mockAddAccountParams())
-      expect(account).toBeTruthy()
-      expect(account.id).toBeTruthy()
-      expect(account.name).toBe('any_name')
-      expect(account.email).toBe('any_email@mail.com')
-      expect(account.password).toBe('any_password')
+      const isValid = await sut.add(mockAddAccountParams())
+      expect(isValid).toBeTruthy()
     })
   })
   describe('loadByEmail()', () => {
@@ -41,7 +37,6 @@ describe('Account Mongo Repository', () => {
       expect(account).toBeTruthy()
       expect(account.id).toBeTruthy()
       expect(account.name).toBe('any_name')
-      expect(account.email).toBe('any_email@mail.com')
       expect(account.password).toBe('any_password')
     })
     test('Deve retornar null se loadByEmail falhar', async () => {
@@ -118,6 +113,19 @@ describe('Account Mongo Repository', () => {
       const sut = makeSut()
       const account = await sut.loadByToken('any_token')
       expect(account).toBeFalsy()
+    })
+  })
+  describe('checkByEmail()', () => {
+    test('Deve retornar true se o email for valido', async () => {
+      const sut = makeSut()
+      await accountCollection.insertOne(mockAddAccountParams())
+      const exists = await sut.checkByEmail('any_email@mail.com')
+      expect(exists).toBeTruthy()
+    })
+    test('Deve retornar false se email nao existir', async () => {
+      const sut = makeSut()
+      const exists = await sut.checkByEmail('any_email@mail.com')
+      expect(exists).toBeFalsy()
     })
   })
 })

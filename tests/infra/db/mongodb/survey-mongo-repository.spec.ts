@@ -3,6 +3,7 @@ import { SurveyMongoRepository } from '@/infra/db/mongodb/repository'
 import { SurveyModel } from '@/domain/models'
 import MockDate from 'mockdate'
 import { mockSurvey } from '@/../tests/domain/mocks'
+import FakeObjectID from 'bson-objectid'
 import { Collection, ObjectId } from 'mongodb'
 
 let surveyCollection: Collection
@@ -106,6 +107,30 @@ describe('Survey Mongo Repository', () => {
       const sut = makeSut()
       const survey = await sut.loadById(id)
       expect(survey).toBeTruthy()
+    })
+  })
+  describe(('checkById()'), () => {
+    test('Deve retornar true se survey existir', async () => {
+      const { insertedId } = await surveyCollection.insertOne({
+        question: 'any_question',
+        answers: [
+          {
+            image: 'any_image',
+            answer: 'any_answer'
+          }
+        ],
+        date: new Date()
+      })
+      const id = insertedId.toHexString()
+      const sut = makeSut()
+      const exists = await sut.checkById(id)
+      expect(exists).toBeTruthy()
+    })
+    test('Deve carregar false se survey não existir', async () => {
+      const sut = makeSut()
+      const fakeIdForMongo = FakeObjectID()
+      const exists = await sut.checkById(fakeIdForMongo.toHexString())
+      expect(exists).toBeFalsy()
     })
   })
 })

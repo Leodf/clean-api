@@ -8,17 +8,17 @@ import { mockLoadSurveyResultRepository, mockLoadSurveyByIdRepository } from '..
 type SutTypes = {
   sut: DbLoadSurveyResult
   loadSurveyResultRepositoryStub: LoadSurveyResultRepository
-  LoadSurveyByIdRepositoryStub: LoadSurveyByIdRepository
+  loadSurveyByIdRepositoryStub: LoadSurveyByIdRepository
 }
 
 const makeSut = (): SutTypes => {
   const loadSurveyResultRepositoryStub = mockLoadSurveyResultRepository()
-  const LoadSurveyByIdRepositoryStub = mockLoadSurveyByIdRepository()
-  const sut = new DbLoadSurveyResult(loadSurveyResultRepositoryStub, LoadSurveyByIdRepositoryStub)
+  const loadSurveyByIdRepositoryStub = mockLoadSurveyByIdRepository()
+  const sut = new DbLoadSurveyResult(loadSurveyResultRepositoryStub, loadSurveyByIdRepositoryStub)
   return {
     sut,
     loadSurveyResultRepositoryStub,
-    LoadSurveyByIdRepositoryStub
+    loadSurveyByIdRepositoryStub
   }
 }
 
@@ -42,8 +42,8 @@ describe('DbLoadSurveyResult UseCase', () => {
     await expect(promise).rejects.toThrow()
   })
   test('Deve chamar LoadSurveyByIdRepository se LoadSurveyResultRepository retornar null', async () => {
-    const { sut, loadSurveyResultRepositoryStub, LoadSurveyByIdRepositoryStub } = makeSut()
-    const loadByIdSpy = jest.spyOn(LoadSurveyByIdRepositoryStub, 'loadById')
+    const { sut, loadSurveyResultRepositoryStub, loadSurveyByIdRepositoryStub } = makeSut()
+    const loadByIdSpy = jest.spyOn(loadSurveyByIdRepositoryStub, 'loadById')
     jest.spyOn(loadSurveyResultRepositoryStub, 'loadBySurveyId').mockReturnValueOnce(Promise.resolve(null))
     await sut.load('any_survey_id', 'any_account_id')
     expect(loadByIdSpy).toHaveBeenCalledWith('any_survey_id')

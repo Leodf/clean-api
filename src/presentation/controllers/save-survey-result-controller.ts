@@ -1,31 +1,27 @@
 import { Controller, HttpResponse } from '@/presentation/protocols'
 import { InvalidParamError } from '@/presentation/errors'
 import { forbidden, ok, serverError } from '@/presentation/helpers'
-import { LoadSurveyById } from '@/domain/usecases/survey'
+import { LoadAnswersBySurvey } from '@/domain/usecases/survey'
 import { SaveSurveyResult } from '@/domain/usecases/survey-result'
 
 export class SaveSurveyResultController implements Controller {
   constructor (
-    private readonly loadSurveyById: LoadSurveyById,
+    private readonly loadAnswersBySurvey: LoadAnswersBySurvey,
     private readonly saveSurveyResult: SaveSurveyResult
   ) {}
 
   async handle (request: SaveSurveyResultController.Request): Promise<HttpResponse> {
     try {
-      const { accountId, surveyId, answer } = request
-      const survey = await this.loadSurveyById.loadById(surveyId)
-      if (survey) {
-        const anwers = survey.answers.map(item => item.answer)
-        if (!anwers.includes(answer)) {
-          return forbidden(new InvalidParamError('answer'))
-        }
-      } else {
+      const { surveyId, answer } = request
+      const answers = await this.loadAnswersBySurvey.loadAnswers(surveyId)
+      if (!answers.length) {
         return forbidden(new InvalidParamError('surveyId'))
       }
+      if (!answers.includes(answer)) {
+        return forbidden(new InvalidParamError('answer'))
+      }
       const surveyResult = await this.saveSurveyResult.save({
-        accountId,
-        surveyId,
-        answer,
+        ...request,
         date: new Date()
       })
       return ok(surveyResult)

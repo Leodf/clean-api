@@ -108,6 +108,39 @@ describe('Survey Mongo Repository', () => {
       const survey = await sut.loadById(id)
       expect(survey).toBeTruthy()
     })
+    test('Deve retornar null se survey não existir', async () => {
+      const sut = makeSut()
+      const fakeIdForMongo = FakeObjectID()
+      const survey = await sut.loadById(fakeIdForMongo.toHexString())
+      expect(survey).toBeFalsy()
+    })
+  })
+  describe(('loadAnswers()'), () => {
+    test('Deve carregar answers no sucesso', async () => {
+      const { insertedId } = await surveyCollection.insertOne({
+        question: 'any_question',
+        answers: [
+          {
+            image: 'any_image',
+            answer: 'any_answer'
+          }, {
+            image: 'other_image',
+            answer: 'other_answer'
+          }
+        ],
+        date: new Date()
+      })
+      const id = insertedId.toHexString()
+      const sut = makeSut()
+      const answers = await sut.loadAnswers(id)
+      expect(answers).toEqual(['any_answer', 'other_answer'])
+    })
+    test('Deve retornar um array vazio answers se survey nao existir', async () => {
+      const sut = makeSut()
+      const fakeIdForMongo = FakeObjectID()
+      const answers = await sut.loadAnswers(fakeIdForMongo.toHexString())
+      expect(answers).toEqual([])
+    })
   })
   describe(('checkById()'), () => {
     test('Deve retornar true se survey existir', async () => {

@@ -1,8 +1,14 @@
 import request from 'supertest'
 import { noCacheSwagger } from '@/main/middlewares/no-cache-swagger'
-import app from '@/main/config/app'
+import { Express } from 'express'
+import { setupApp } from '@/main/config/app'
+
+let app: Express
 
 describe('NoCacheSwagger Middleware', () => {
+  beforeAll(async () => {
+    app = await setupApp()
+  })
   test('Deve desabilitar o cache', async () => {
     app.get('/test_no_cache', noCacheSwagger, (req, res) => {
       res.send()

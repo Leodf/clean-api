@@ -1,9 +1,9 @@
 import {
-  AddAccountRepository,
-  LoadAccountByEmailRepository,
-  UpdateAccessTokenRepository,
-  LoadAccountByTokenRepository,
-  CheckAccountByEmailRepository
+  type AddAccountRepository,
+  type LoadAccountByEmailRepository,
+  type UpdateAccessTokenRepository,
+  type LoadAccountByTokenRepository,
+  type CheckAccountByEmailRepository
 } from '@/application/protocols/db/account'
 import { MongoHelper } from '@/infra/db/mongodb/helpers'
 import { ObjectId } from 'mongodb'

@@ -1,5 +1,5 @@
-import { Middleware } from '@/presentation/protocols'
-import { NextFunction, Request, Response } from 'express'
+import { type Middleware } from '@/presentation/protocols'
+import { type NextFunction, type Request, type Response } from 'express'
 
 export const adapterMiddleware = (middleware: Middleware) => {
   return async (req: Request, res: Response, next: NextFunction) => {

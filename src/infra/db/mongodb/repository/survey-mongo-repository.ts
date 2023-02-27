@@ -1,9 +1,9 @@
 import {
-  AddSurveyRepository,
-  LoadSurveysRepository,
-  LoadSurveyByIdRepository,
-  LoadAnswersBySurveyRepository,
-  CheckSurveyByIdRepository
+  type AddSurveyRepository,
+  type LoadSurveysRepository,
+  type LoadSurveyByIdRepository,
+  type LoadAnswersBySurveyRepository,
+  type CheckSurveyByIdRepository
 } from '@/application/protocols/db/survey'
 import { MongoHelper, QueryBuilder } from '@/infra/db/mongodb/helpers'
 import { ObjectId } from 'mongodb'

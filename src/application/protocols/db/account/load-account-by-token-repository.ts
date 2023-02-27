@@ -1,4 +1,4 @@
-import { LoadAccountByToken } from '@/domain/usecases/account'
+import { type LoadAccountByToken } from '@/domain/usecases/account'
 
 export interface LoadAccountByTokenRepository {
   loadByToken: (token: string, role?: string) => Promise<LoadAccountByTokenRepository.Result>

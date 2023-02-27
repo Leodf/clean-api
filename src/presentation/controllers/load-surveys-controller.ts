@@ -1,6 +1,6 @@
-import { Controller, HttpResponse } from '@/presentation/protocols'
+import { type Controller, type HttpResponse } from '@/presentation/protocols'
 import { noContent, ok, serverError } from '@/presentation/helpers'
-import { LoadSurveys } from '@/domain/usecases/survey'
+import { type LoadSurveys } from '@/domain/usecases/survey'
 
 export class LoadSurveysController implements Controller {
   constructor (private readonly loadSurveys: LoadSurveys) {}

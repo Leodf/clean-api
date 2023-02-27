@@ -1,4 +1,4 @@
-import { Hasher, HashComparer } from '@/application/protocols/cryptography'
+import { type Hasher, type HashComparer } from '@/application/protocols/cryptography'
 import bcrypt from 'bcrypt'
 
 export class BCryptAdapter implements Hasher, HashComparer {

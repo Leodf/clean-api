@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import { type Router } from 'express'
 import { adapterRoute } from '@/main/adapters/express-route-adapter'
 import { makeAddSurveyController } from '@/main/factories/controllers/survey/add-survey-controller-factory'
 import { makeLoadSurveysController } from '@/main/factories/controllers/survey/load-surveys-controller-factory'

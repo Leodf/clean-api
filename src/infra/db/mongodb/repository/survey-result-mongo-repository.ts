@@ -1,4 +1,4 @@
-import { SaveSurveyResultRepository, LoadSurveyResultRepository } from '@/application/protocols/db/survey-result'
+import { type SaveSurveyResultRepository, type LoadSurveyResultRepository } from '@/application/protocols/db/survey-result'
 import { MongoHelper, QueryBuilder } from '@/infra/db/mongodb/helpers'
 import { ObjectId } from 'mongodb'
 import round from 'mongo-round'

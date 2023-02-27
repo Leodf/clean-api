@@ -1,4 +1,4 @@
-import { Controller } from '@/presentation/protocols'
+import { type Controller } from '@/presentation/protocols'
 import { makeLogControllerDecorator } from '@/main/factories/decorators/log-controller-decorator-factory'
 import { AddSurveyController } from '@/presentation/controllers/add-survey-controller'
 import { makeAddSurveyValidation } from './add-survey-validation-factory'

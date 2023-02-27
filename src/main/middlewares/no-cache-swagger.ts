@@ -1,5 +1,5 @@
 
-import { Request, Response, NextFunction } from 'express'
+import { type Request, type Response, type NextFunction } from 'express'
 
 export const noCacheSwagger = (req: Request, res: Response, next: NextFunction): void => {
   res.set('cache-control', 'no-store, no-cache, must-revalidate, proxy-revalidate')

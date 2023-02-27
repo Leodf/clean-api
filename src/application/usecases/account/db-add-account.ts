@@ -1,6 +1,6 @@
-import { Hasher } from '@/application/protocols/cryptography'
-import { AddAccountRepository, CheckAccountByEmailRepository } from '@/application/protocols/db/account'
-import { AddAccount } from '@/domain/usecases/account'
+import { type Hasher } from '@/application/protocols/cryptography'
+import { type AddAccountRepository, type CheckAccountByEmailRepository } from '@/application/protocols/db/account'
+import { type AddAccount } from '@/domain/usecases/account'
 
 export class DbAddAccount implements AddAccount {
   constructor (

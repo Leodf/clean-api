@@ -1,4 +1,4 @@
-import { Controller } from '@/presentation/protocols'
+import { type Controller } from '@/presentation/protocols'
 import { ApolloError, AuthenticationError, ForbiddenError, UserInputError } from 'apollo-server-express'
 
 export const adapterResolver = async (controller: Controller, args?: any): Promise<any> => {

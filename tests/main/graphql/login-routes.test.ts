@@ -52,4 +52,20 @@ describe('Login GraphQl', () => {
       expect(res.body.errors[0].message).toBe('Unauthorize')
     })
   })
+  describe('SignUp Mutation', () => {
+    const query = `mutation {
+      signUp (name: "Leonardo", email: "faver_i@hotmail.com", password: "123456", passwordConfirmation: "123456") {
+        accessToken
+        name
+      }
+    }`
+    test('Deve retornar um account com credenciais validas', async () => {
+      const res = await request(app)
+        .post('/graphql')
+        .send({ query })
+      expect(res.status).toBe(200)
+      expect(res.body.data.signUp.accessToken).toBeTruthy()
+      expect(res.body.data.signUp.name).toBe('Leonardo')
+    })
+  })
 })

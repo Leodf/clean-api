@@ -1,10 +1,10 @@
 import { MongoHelper } from '@/infra/db/mongodb/helpers'
 import { SurveyMongoRepository } from '@/infra/db/mongodb/repository'
-import { SurveyModel } from '@/domain/models'
+import { type SurveyModel } from '@/domain/models'
 import MockDate from 'mockdate'
 import { mockSurvey } from '@/../tests/domain/mocks'
 import FakeObjectID from 'bson-objectid'
-import { Collection, ObjectId } from 'mongodb'
+import { type Collection, ObjectId } from 'mongodb'
 
 let surveyCollection: Collection
 let surveyResultCollection: Collection

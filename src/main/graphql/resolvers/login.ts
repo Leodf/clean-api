@@ -8,6 +8,6 @@ export default {
   },
 
   Mutation: {
-    signup: async (parent: any, args: any) => await adapterResolver(makeSignUpController(), args)
+    signUp: async (parent: any, args: any) => await adapterResolver(makeSignUpController(), args)
   }
 }
